@@ -9,3 +9,5 @@ dist-ssr
 .envrc
 .direnv/
 
+// env vars
+.env
