@@ -4,7 +4,10 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     SERVER_URL: z.string().url().optional(),
-    DATABASE_URL: z.string()
+    DATABASE_URL: z.string(),
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development"),
   },
 
   /**
@@ -15,6 +18,9 @@ export const env = createEnv({
 
   client: {
     VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development"),
   },
 
   /**

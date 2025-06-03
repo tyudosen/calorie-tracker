@@ -7,14 +7,22 @@ import { resolve } from "node:path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [TanStackRouterVite({ autoCodeSplitting: true }), viteReact(), tailwindcss()],
+  plugins: [
+    TanStackRouterVite({ autoCodeSplitting: true }),
+    viteReact(),
+    tailwindcss(),
+  ],
+  assetsInclude: ["./src/schemas/drizzle/*.sql"],
   test: {
     globals: true,
     environment: "jsdom",
   },
+  optimizeDeps: {
+    exclude: ["@electric-sql/pglite"],
+  },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
+      "@": resolve(__dirname, "./src"),
     },
-  }
+  },
 });

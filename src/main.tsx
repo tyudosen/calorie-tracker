@@ -7,11 +7,16 @@ import { routeTree } from './routeTree.gen'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
+import { RuntimeClient } from './services/runtime-client.ts'
+import { Pglite } from './services/pglite.ts'
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  context: {},
+  context: {
+    client: undefined,
+    orm: null
+  },
   defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,
@@ -25,13 +30,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+const { client, orm } = await RuntimeClient.runPromise(Pglite)
+
 // Render the app
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <RouterProvider router={router} context={{
+        client, orm
+      }} />
     </StrictMode>,
   )
 }
